@@ -33,10 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Priority Queue, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\OptimizedPriorityQueue.2.0.0\lib\net45\Priority Queue.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,11 +42,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PQ\FastPriorityQueue.cs" />
+    <Compile Include="PQ\FastPriorityQueueNode.cs" />
     <Compile Include="graph.cs" />
     <Compile Include="IGraphNode.cs" />
+    <Compile Include="PQ\IPriorityQueue.cs" />
     <Compile Include="parition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PQ\SimplePriorityQueue.cs" />
     <Compile Include="Vertex.cs" />
     <Compile Include="worker.cs" />
   </ItemGroup>

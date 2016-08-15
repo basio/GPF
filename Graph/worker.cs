@@ -14,10 +14,11 @@ namespace GPF
         public Dictionary<int, Parition<T>> parts = new Dictionary<int, Parition<T>>();
         public Dictionary<int, int> vertex_to_parition = new Dictionary<int, int>();
 
-        SimplePriorityQueue<int> workQueue = new SimplePriorityQueue<int>();
+       public SimplePriorityQueue<int> workQueue = new SimplePriorityQueue<int>();
 
         int n_parition;
         static int indx;
+
         public void AddtoPart(Vertex<T> v)
         {
             indx = (indx++) % n_parition;
@@ -64,7 +65,7 @@ namespace GPF
                     v.superstep++;
                     if (v.isActive)
                     {
-                        workQueue.Enqueue(v.ID, -v.outgoing_edges.Count);
+                        workQueue.Enqueue(v.ID, 900);
                     }
                 }
                 else

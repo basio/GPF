@@ -11,8 +11,7 @@ namespace GPF
     {
         static void Main(string[] args)
         {
-            
-         
+                    
             Graph<float> g = new Graph<float>();
             g.createRandomGraph(10, 100,1 );
             g.run();

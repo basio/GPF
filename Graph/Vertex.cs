@@ -21,15 +21,10 @@ namespace GPF
 
         public List<Vertex<T>> incoming_edges =new List<Vertex<T>>();
 
-        public Vertex()
-        {
-            ID = id__++;
-            isActive = true;
-        }
         public Vertex(int value)
         {
             ID = id__++;
-            this.value = value;
+            this.value = ID;
             isActive = true;
         }
 
@@ -37,6 +32,7 @@ namespace GPF
             outgoing_edges.Add(v);
             v.incoming_edges.Add(this);
         }
+
         Vertex<T> getVertex(int id)
         {
             //get vertex
@@ -60,7 +56,11 @@ namespace GPF
                 v.isActive = true;
                 
             }
-
+            Worker<T> w= (Worker<T>)v.parent.parent;
+            if (w.workQueue.Contains(dst))
+                w.workQueue.IncreasePriority(dst, -1);
+            else
+                w.workQueue.Enqueue(dst, -1);
         }
         public int Ready()  {
             int c = 0;
@@ -82,36 +82,40 @@ namespace GPF
         public void compute()
         {
             List<int> messages_current = new List<int>();
-            lock (Messages)
-            {
-                for (int i = 0; i < Messages.Count; i++)
-                {
+            lock (Messages)  {
+                for (int i = 0; i < Messages.Count; i++)  {
                     messages_current.Add(Messages[i]);
                 }
                 Messages.Clear();
             }
-
-            int val = 0;
-            for (int i = 0; i < messages_current.Count; i++)
+            Console.WriteLine(ID + " ("+superstep+")"  + value);
+            if (superstep == 0)
             {
-                val = Math.Max(messages_current[i], val);
-            }
-            Console.WriteLine(ID + "    " + val);
-            if (val > value)
-            {
-                value = val;
                 for (int j = 0; j < outgoing_edges.Count; j++)
                 {
                     int dst = outgoing_edges[j].ID;
                     SendMessage(dst, value);
                 }
-
             }
             else
             {
-                isActive = false;
-            }
+                int val = 0;
+                for (int i = 0; i < messages_current.Count; i++)  {
+                    val = Math.Max(messages_current[i], val);
+                }
 
+                if (val > value)  {
+                    value = val;
+              
+                    for (int j = 0; j < outgoing_edges.Count; j++)
+                    {
+                        int dst = outgoing_edges[j].ID;
+                        SendMessage(dst, value);
+                    }
+                }  else       {
+                    isActive = false;
+                }
+            }
             if (superstep > 10) isActive = false;
         }
 

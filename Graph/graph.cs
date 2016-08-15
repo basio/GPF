@@ -24,13 +24,14 @@ namespace GPF
             n_worker=nworkers;
             List<Vertex<T>> vertices = new List<Vertex<T>>();
             for (int i = 0; i < n; i++) {
-                vertices.Add(new Vertex<T>());                
+                vertices.Add(new Vertex<T>(i));                
             }
             Random r = new Random();
 
             for (int i = 0; i < m; i++) {
                 int s = r.Next(n);
                 int e = r.Next(n);
+                if(e!=s)
                 vertices[s].AddEdge(vertices[e]);
             }
             //
@@ -44,8 +45,7 @@ namespace GPF
             for (int i = 0; i < n; i++)  {
                 int p = i % n_worker;
                 workers[p].AddtoPart(vertices[i]);
-                vertex_to_worker.Add(vertices[i].ID, p);
-                
+                vertex_to_worker.Add(vertices[i].ID, p);                
             }
         }
         public IGraphNode parent { set; get; }
