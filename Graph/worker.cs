@@ -30,7 +30,10 @@ namespace GPF
             this.n_parition = n_part;
             for (int i = 0; i < n_part; i++)
             {
-                parts.Add(i, new Parition<T>(i));
+               Parition<T> p= new Parition<T>(i);
+               p.parent = this;
+                parts.Add(i,p) ;
+               
             }
 
         }
@@ -39,30 +42,37 @@ namespace GPF
       
         public void run()
         {
-            for (int i = 0; i < n_parition; i++)
-            {
+            for (int i = 0; i < n_parition; i++) {
                 Parition<T> p = parts[i];
-                for (int j = 0; j < p.count; i++)
-                {
-                    Vertex<T> tempv=p.vertices[j];
-                    workQueue.Enqueue(tempv.ID,tempv.outgoing_edges.Count );
+                foreach (KeyValuePair<int, Vertex<T>> tempv in p.vertices) {
+                    workQueue.Enqueue(tempv.Value.ID,- tempv.Value.outgoing_edges.Count);
                 }
             }
 
-            while (workQueue.Count > 0)
-            {
+            while (workQueue.Count > 0) {
                 int vid = workQueue.Dequeue();
                 //get parition
-                int pid=vertex_to_parition[vid];
-                Parition<T> p=parts[pid];
+                int pid = vertex_to_parition[vid];
+                Parition<T> p = parts[pid];
                 Vertex<T> v = p.vertices[vid];
-
-                v.compute();
-
-                if (v.isActive)
+                int r = 1;
+                if (v.superstep > 0)
+                    r = v.Ready();
+                if (r>0 || v.superstep>0)
                 {
-                    workQueue.Enqueue(v.ID, v.outgoing_edges.Count);
+                    v.compute();
+                    v.superstep++;
+                    if (v.isActive)
+                    {
+                        workQueue.Enqueue(v.ID, -v.outgoing_edges.Count);
+                    }
                 }
+                else
+                {
+                    workQueue.Enqueue(v.ID, -r);
+                }
+
+
             }
         }
     }

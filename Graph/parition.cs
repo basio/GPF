@@ -18,16 +18,12 @@ namespace GPF
         }
         public void AddVertex(Vertex<T> v)
         {
+            v.parent = this;
             vertices.Add(v.ID,v);
         }
 
         public IGraphNode parent { set; get; }
-        private volatile bool all_done;
-
-       //public void run()
-       // {
-
-       // }
+       
 
     }
 }

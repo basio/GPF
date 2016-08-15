@@ -11,7 +11,7 @@ namespace GPF
     {
         public int ID;
         static int id__ = 0;
-        public T value;
+        public int value;
         public int superstep;
         public bool isActive { set; get; }
 
@@ -24,11 +24,13 @@ namespace GPF
         public Vertex()
         {
             ID = id__++;
+            isActive = true;
         }
-        public Vertex(T value)
+        public Vertex(int value)
         {
             ID = id__++;
             this.value = value;
+            isActive = true;
         }
 
         public void AddEdge(Vertex<T> v){
@@ -53,8 +55,30 @@ namespace GPF
             lock(v){
             v.Messages.Add(message);
             }
+            if (!v.isActive)
+            {
+                v.isActive = true;
+                
+            }
 
         }
+        public int Ready()  {
+            int c = 0;
+            int m = 0;
+            lock (Messages)
+            {
+                m = Messages.Count() ;
+            }
+            if (m > incoming_edges.Count)
+                return m - incoming_edges.Count;
+
+            foreach (Vertex<T> v in incoming_edges)
+            {
+                if (v.isActive) c++;
+            }            
+            return m-c;
+        }
+        
         public void compute()
         {
             List<int> messages_current = new List<int>();
@@ -67,7 +91,28 @@ namespace GPF
                 Messages.Clear();
             }
 
+            int val = 0;
+            for (int i = 0; i < messages_current.Count; i++)
+            {
+                val = Math.Max(messages_current[i], val);
+            }
+            Console.WriteLine(ID + "    " + val);
+            if (val > value)
+            {
+                value = val;
+                for (int j = 0; j < outgoing_edges.Count; j++)
+                {
+                    int dst = outgoing_edges[j].ID;
+                    SendMessage(dst, value);
+                }
 
+            }
+            else
+            {
+                isActive = false;
+            }
+
+            if (superstep > 10) isActive = false;
         }
 
     }

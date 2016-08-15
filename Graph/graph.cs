@@ -36,7 +36,7 @@ namespace GPF
             //
             for (int i = 0; i < n_worker; i++)
             {
-                Worker<T> w=new Worker<T>(i,10);
+                Worker<T> w=new Worker<T>(i,1);
                 w.parent = this;
                 workers.Add(i,w );
             }

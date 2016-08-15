@@ -4,3 +4,5 @@ C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\bin\Debug\Gra
 C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\obj\Debug\Graph.csprojResolveAssemblyReference.cache
 C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\obj\Debug\Graph.exe
 C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\obj\Debug\Graph.pdb
+C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\bin\Debug\Priority Queue.dll
+C:\Users\khalefa\Documents\Visual Studio 2012\Projects\Graph\Graph\bin\Debug\Priority Queue.pdb
