@@ -13,7 +13,7 @@ namespace GPF
         {
                     
             Graph<float> g = new Graph<float>();
-            g.createRandomGraph(10, 100,1 );
+            g.createRandomGraph(10000, 10000000, 1);
             g.run();
         }
     }
